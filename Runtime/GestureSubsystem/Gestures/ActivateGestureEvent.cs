@@ -21,22 +21,12 @@ namespace UnityEngine.XR.InteractionSubsystems
         public GestureState state { get { return m_State; } }
 
         /// <summary>
-        /// The <see cref="Vector3"/> ray origin in world-space for the ray that should interact with the world.
-        /// </summary>
-        public Vector3 rayOrigin { get { return m_RayOrigin; } }
-
-        /// <summary>
-        /// The <see cref="Vector3"/> ray direction in world-space for the ray that should interact with the world.
-        /// </summary>
-        public Vector3 rayDirection { get { return m_RayDirection; } }
-
-        /// <summary>
         /// Gets a default-initialized <see cref="ActivateGestureEvent"/>. 
         /// </summary>
         /// <returns>A default <see cref="ActivateGestureEvent"/>.</returns>
         public static ActivateGestureEvent GetDefault()
         {
-            return new ActivateGestureEvent(GestureId.invalidId, GestureState.Invalid, Vector3.zero, Vector3.one);
+            return new ActivateGestureEvent(GestureId.invalidId, GestureState.Invalid);
         }
 
         /// <summary>
@@ -44,14 +34,10 @@ namespace UnityEngine.XR.InteractionSubsystems
         /// </summary>
         /// <param name="id">The <see cref="GestureId"/> associated with the gesture.</param>
         /// <param name="state">The <see cref="GestureId"/> associated with the gesture.</param>
-        /// <param name="rayOrigin">The <see cref="Vector3"/> ray origin associated with the gesture.</param>
-        /// <param name="rayDirection">The <see cref="Vector3"/> ray direction associated with the gesture.</param>
-        public ActivateGestureEvent(GestureId id, GestureState state, Vector3 rayOrigin, Vector3 rayDirection)
+        public ActivateGestureEvent(GestureId id, GestureState state)
         {
             m_Id = id;
             m_State = state;
-            m_RayOrigin = rayOrigin;
-            m_RayDirection = rayDirection;
         }
 
         /// <summary>
@@ -61,8 +47,8 @@ namespace UnityEngine.XR.InteractionSubsystems
         public override string ToString()
         {
             return string.Format(
-                "Plane:\n\tid: {0}\n\tstate: {1}\n\trayOrigin: {2}\n\trayDirection: {3}",
-                id, state, rayOrigin, rayDirection);
+                "Plane:\n\tid: {0}\n\tstate: {1}\n\t",
+                id, state);
         }
 
         public override bool Equals(object obj)
@@ -77,8 +63,6 @@ namespace UnityEngine.XR.InteractionSubsystems
             {
                 var hashCode = m_Id.GetHashCode();
                 hashCode = (hashCode * 486187739) + ((int)m_State).GetHashCode();
-                hashCode = (hashCode * 486187739) + m_RayOrigin.GetHashCode();
-                hashCode = (hashCode * 486187739) + m_RayDirection.GetHashCode();
                 return hashCode;
             }
         }
@@ -97,14 +81,10 @@ namespace UnityEngine.XR.InteractionSubsystems
         {
             return
                 m_Id.Equals(other.id) &&
-                m_State == other.state &&
-                m_RayOrigin == other.rayOrigin &&
-                m_RayDirection == other.rayDirection;
+                m_State == other.state;
         }
 
         GestureId m_Id;
         GestureState m_State;
-        Vector3 m_RayOrigin;
-        Vector3 m_RayDirection;
     }
 }
