@@ -57,7 +57,11 @@ namespace UnityEngine.XR.InteractionSubsystems
         /// <summary>
         /// Destroys the Gesture subsystem.
         /// </summary>
+#if UNITY_2019_3_OR_NEWER
+        protected sealed override void OnDestroy()
+#else
         public sealed override void Destroy()
+#endif
         {
             Stop();
             m_Provider.Destroy();
