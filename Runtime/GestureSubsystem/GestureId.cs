@@ -27,8 +27,8 @@ namespace UnityEngine.XR.InteractionSubsystems
         /// </summary>
         public ulong subId1
         {
-            get { return m_SubId1; }
-            set { m_SubId1 = value; }
+            get => m_SubId1;
+            set => m_SubId1 = value;
         }
 
         /// <summary>
@@ -36,8 +36,8 @@ namespace UnityEngine.XR.InteractionSubsystems
         /// </summary>
         public ulong subId2
         {
-            get { return m_SubId2; }
-            set { m_SubId2 = value; }
+            get => m_SubId2;
+            set => m_SubId2 = value;
         }
 
         /// <summary>
@@ -51,10 +51,7 @@ namespace UnityEngine.XR.InteractionSubsystems
             m_SubId2 = subId2;
         }
 
-        /// <summary>
-        /// Generates a string representation of the id suitable for debugging.
-        /// </summary>
-        /// <returns>A string representation of the id.</returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             return string.Format("{0}-{1}",
@@ -62,10 +59,7 @@ namespace UnityEngine.XR.InteractionSubsystems
                 m_SubId2.ToString("X16"));
         }
 
-        /// <summary>
-        /// Generates a hash code suitable for use in a <c>Dictionary</c> or <c>Set</c>.
-        /// </summary>
-        /// <returns>A hash code for participation in certain collections.</returns>
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             unchecked
@@ -74,17 +68,29 @@ namespace UnityEngine.XR.InteractionSubsystems
                 return hash * 486187739 + m_SubId2.GetHashCode();
             }
         }
-
+ 
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             return obj is GestureId && Equals((GestureId)obj);
         }
 
+        /// <summary>
+        /// Test if a given gesture ID is equal to this gesture ID
+        /// </summary>
+        /// <param name="other">The gesture ID to test against</param>
+        /// <returns>true if the gesture IDs are equal.</returns>
         public bool Equals(GestureId other)
         {
             return (m_SubId1 == other.m_SubId1) && (m_SubId2 == other.m_SubId2);
         }
 
+        /// <summary>
+        /// Test if two gesture IDs are equal
+        /// </summary>
+        /// <param name="id1">First gesture ID to test</param>
+        /// <param name="id2">Second gesture ID to test</param>
+        /// <returns>true if they are equal</returns>
         public static bool operator==(GestureId id1, GestureId id2)
         {
             return
@@ -92,6 +98,12 @@ namespace UnityEngine.XR.InteractionSubsystems
                 (id1.m_SubId2 == id2.m_SubId2);
         }
 
+        /// <summary>
+        /// Test if two gesture IDs are not equal
+        /// </summary>
+        /// <param name="id1">First gesture ID to test</param>
+        /// <param name="id2">Second gesture ID to test</param>
+        /// <returns>true if they are not equal</returns>
         public static bool operator!=(GestureId id1, GestureId id2)
         {
             return

@@ -51,12 +51,30 @@ namespace UnityEngine.XR.InteractionSubsystems
                 id, state);
         }
 
+        /// <summary>
+        /// Comparison operation to determine if the give object is equal to this instace. 
+        /// </summary>
+        /// <param name="obj">object to compare to</param>
+        /// <returns>true if equal, false otherwise</returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             return obj is ActivateGestureEvent && Equals((ActivateGestureEvent)obj);
         }
 
+        /// <summary>
+        /// Test if the given ActiveateGestureEvent is equal to this ActivateGestureEvent 
+        /// </summary>
+        /// <param name="other">The comparison object</param>
+        /// <returns>true if they are equal. false otherwise.</returns>
+        public bool Equals(ActivateGestureEvent other)
+        {
+            return
+                m_Id.Equals(other.id) &&
+                m_State == other.state;
+        }
+
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             unchecked
@@ -67,24 +85,30 @@ namespace UnityEngine.XR.InteractionSubsystems
             }
         }
 
+        /// <summary>
+        /// Comparison operation to determine if the ActivateGestureEvents are equal.
+        /// </summary>
+        /// <param name="lhs">The first ActivateGestureEvent to compare.</param>
+        /// <param name="rhs">The second ActivateGestureEvent to compare.</param>
+        /// <returns>true if they are not equal, false otherwise.</returns>
+        /// <returns>true if the ActivateGestureEvents are equal. False otherwise.</returns>
         public static bool operator ==(ActivateGestureEvent lhs, ActivateGestureEvent rhs)
         {
             return lhs.Equals(rhs);
         }
 
+        /// <summary>
+        /// Comparison operation to determine if the ActivateGestureEvents are not equal
+        /// </summary>
+        /// <param name="lhs">The first ActivateGestureEvent to compare.</param>
+        /// <param name="rhs">The second ActivateGestureEvent to compare.</param>
+        /// <returns>true if they are not equal, false otherwise.</returns>
         public static bool operator !=(ActivateGestureEvent lhs, ActivateGestureEvent rhs)
         {
             return !lhs.Equals(rhs);
         }
 
-        public bool Equals(ActivateGestureEvent other)
-        {
-            return
-                m_Id.Equals(other.id) &&
-                m_State == other.state;
-        }
-
-        GestureId m_Id;
-        GestureState m_State;
+        readonly GestureId m_Id;
+        readonly GestureState m_State;
     }
 }

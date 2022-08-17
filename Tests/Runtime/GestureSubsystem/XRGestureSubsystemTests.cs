@@ -9,28 +9,15 @@ namespace UnityEngine.XR.InteractionSubsystems.Tests
 {
     public class XRGestureSubsystemTest : XRGestureSubsystem
     {
-        protected override Provider CreateProvider()
+        public class XRGestureSubsystemTestProvider : Provider
         {
-            return new XRGestureSubsystemTestProvider();
-        }
+            public XRGestureSubsystemTestProvider() { }
 
-        class XRGestureSubsystemTestProvider : Provider
-        {
-            public XRGestureSubsystemTestProvider()
-            {
-            }
+            public override void Start() { }
 
-            public override void Start()
-            {
-            }
+            public override void Stop() { }
 
-            public override void Stop()
-            {
-            }
-
-            public override void Update()
-            {
-            }
+            public override void Update() { }
 
             public override void Destroy()
             {
@@ -42,10 +29,34 @@ namespace UnityEngine.XR.InteractionSubsystems.Tests
     [TestFixture]
     public class XRGestureSubsystemTestFixture
     {
-         [Test]
+        [OneTimeSetUp]
+        public void RegisterTestDescriptor()
+        {
+            XRGestureSubsystemDescriptor.RegisterDescriptor(new XRGestureSubsystemDescriptor.Cinfo
+            {
+                id = "Test-Gesture",
+                providerType = typeof(XRGestureSubsystemTest.XRGestureSubsystemTestProvider),
+                subsystemTypeOverride = typeof(XRGestureSubsystemTest)
+            });
+        }
+
+        static List<XRGestureSubsystemDescriptor> s_Descs = new List<XRGestureSubsystemDescriptor>();
+        static XRGestureSubsystem CreateTestGestureSubsystem()
+        {
+            SubsystemManager.GetSubsystemDescriptors(s_Descs);
+            foreach (var desc in s_Descs)
+            {
+                if (desc.id == "Test-Gesture")
+                    return desc.Create();
+            }
+
+            return s_Descs[0].Create();
+        }
+
+        [Test]
         public void RunningStateTests()
         {
-            XRGestureSubsystem subsystem = new XRGestureSubsystemTest();
+            XRGestureSubsystem subsystem = CreateTestGestureSubsystem();
             
             // Initial state is not running
             Assert.That(subsystem.running == false);
